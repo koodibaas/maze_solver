@@ -100,55 +100,6 @@ class Cell():
             self._win.canvas.pack()    
         
 
-class MazeOLD():
-    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None):
-        self.x1 = x1
-        self.y1 = y1
-        self.num_rows = num_rows
-        self.num_cols = num_cols
-        self.cell_size_x = cell_size_x
-        self.cell_size_y = cell_size_y
-        self._win = win
-        self._create_cells()
-        self._break_entrance_and_exit()
-
-    
-    def _create_cells(self):
-        self._cells = []
-        
-        col_offset = self.cell_size_y / 2
-        row_offset = self.cell_size_x / 2
-
-        for i in range(0, int(self.num_cols)):
-            col_list = []
-            for j in range(0, int(self.num_rows)):
-                _i = (i * self.cell_size_x) + row_offset + self.x1
-                _j = (j * self.cell_size_y) + col_offset + self.y1
-                col_list.append([_i, _j])
-            self._cells.append(col_list)
-
-        for col in self._cells:
-            for cell in col:
-                self._draw_cell(cell[0], cell[1])
-
-
-    def _draw_cell(self, i, j):
-        x1 = i - (self.cell_size_x / 2)
-        x2 = i + (self.cell_size_x / 2)
-        y1 = j - (self.cell_size_y / 2)
-        y2 = j + (self.cell_size_y / 2)
-
-        cell = Cell(x1, y1, x2, y2, self._win)
-        cell.draw("blue")
-        self._animate()
-
-
-    def _animate(self):
-        if self._win is not None:
-            time.sleep(0.05)
-            self._win.redraw()
-
-
 class Maze():
     def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None):
         self.x1 = x1
