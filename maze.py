@@ -1,5 +1,5 @@
 from tkinter import Tk, BOTH, Canvas
-import time
+import random, time
 
 class Window():
     def __init__(self, width, height):
@@ -61,6 +61,7 @@ class Cell():
         self._x2 = x2
         self._y2 = y2
         self._win = win
+        self.visited = False
 
 
     def draw(self, fill_color):
@@ -101,7 +102,7 @@ class Cell():
         
 
 class Maze():
-    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None):
+    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win=None, seed=None):
         self.x1 = x1
         self.y1 = y1
         self.num_rows = num_rows
@@ -111,8 +112,16 @@ class Maze():
         self._win = win
         self._create_cells()
         self._break_entrance_and_exit()
+        '''
+        if seed:
+            self.seed = random.seed(seed)
+        else:
+            self.seed = random.seed(0)
+        '''
+        self._break_walls_r(0, 0)
+        self._reset_cells_visited()
+   
 
-    
     def _create_cells(self):
         self._cells = []
         
@@ -154,6 +163,70 @@ class Maze():
         self._cells[-1][-1].has_bottom_wall = False
         self._draw_cell(self.num_cols - 1, self.num_rows - 1)
 
+    def _break_walls_r(self, i, j):
+        self._cells[i][j].visited = True
+        stop = False
+        while stop == False:
+            cells_to_visit = []
+            _i, _j = i, j - 1
+            if _i >= 0 and _j >= 0:
+                try:
+                    if self._cells[_i][_j].visited == False:
+                        cells_to_visit.append([_i, _j, "up"])
+                except Exception as e:
+                    print(e)
+            _i, _j = i + 1, j
+            if _i >= 0 and _j >= 0:
+                try:
+                    if self._cells[_i][_j].visited == False:
+                        cells_to_visit.append([_i, _j, "right"])
+                except Exception as e:
+                    print(e)
+            _i, _j = i, j + 1
+            if _i >= 0 and _j >= 0:
+                try:
+                    if self._cells[_i][_j].visited == False:
+                        cells_to_visit.append([_i, _j, "down"])
+                except Exception as e:
+                    print(e)
+            _i, _j = i - 1, j
+            if _i >= 0 and _j >= 0:
+                try:
+                    if self._cells[_i][_j].visited == False:
+                        cells_to_visit.append([_i, _j, "left"])
+                except Exception as e:
+                    print(e)
+            if len(cells_to_visit) == 0:
+                self._draw_cell(i, j)
+                stop = True
+            else:
+                next_cell = cells_to_visit[random.randint(0, len(cells_to_visit) - 1)]
+                _i, _j, direction = next_cell[0], next_cell[1], next_cell[2]
+                if direction == "up":
+                    self._cells[i][j].has_top_wall = False
+                    self._cells[_i][_j].has_bottom_wall = False
+                    print(direction)
+                if direction == "right":
+                    self._cells[i][j].has_right_wall = False
+                    self._cells[_i][_j].has_left_wall = False
+                    print(direction)
+                if direction == "down":
+                    self._cells[i][j].has_bottom_wall = False
+                    self._cells[_i][_j].has_top_wall = False
+                    print(direction)
+                if direction == "left":
+                    self._cells[i][j].has_left_wall = False
+                    self._cells[_i][_j].has_right_wall = False
+                    print(direction)
+                self._break_walls_r(_i, _j)
+
+
+    def _reset_cells_visited(self):
+        for i in range(0, int(self.num_cols)):
+            for j in range(0, int(self.num_rows)):
+                self._cells[i][j].visited = False
+
+
 #def run_maze():
 if __name__ == "__main__":
     win = Window(800, 600)
@@ -173,7 +246,7 @@ if __name__ == "__main__":
     
     cell1.draw_move(cell2)
     '''
-    Maze(2, 2, 5, 7, 100, 100, win)
+    Maze(4, 3, 6, 8, 99, 99, win)
     
     win.wait_for_close()
 
