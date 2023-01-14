@@ -173,7 +173,7 @@ if __name__ == "__main__":
     
     cell1.draw_move(cell2)
     '''
-    Maze2(2, 2, 5, 7, 100, 100, win)
+    Maze(2, 2, 5, 7, 100, 100, win)
     
     win.wait_for_close()
 
