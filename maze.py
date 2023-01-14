@@ -108,15 +108,15 @@ class Maze():
         self._cells = []
         col_offset = self.cell_size_y / 2
         row_offset = self.cell_size_x / 2
-        
-        for i in range(1, int(self.num_cols + 1)):
+
+        for i in range(0, int(self.num_cols)):
             col_list = []
-            for j in range(1, int(self.num_rows + 1)):
-                _i = (i * row_offset) + self.x1
-                _j = (j * col_offset) + self.y1
+            for j in range(0, int(self.num_rows)):
+                _i = (i * self.cell_size_x) + row_offset + self.x1
+                _j = (j * self.cell_size_y) + col_offset + self.y1
                 col_list.append([_i, _j])
             self._cells.append(col_list)
-                    
+
         for col in self._cells:
             for cell in col:
                 self._draw_cell(cell[0], cell[1])
@@ -141,7 +141,7 @@ class Maze():
 #def run_maze():
 if __name__ == "__main__":
     win = Window(800, 600)
-    
+    '''
     point1 = Point(2, 2)
     point2 = Point(100, 100)
     
@@ -152,12 +152,13 @@ if __name__ == "__main__":
     cell1.draw("green")
     
     cell2 = Cell(200, 100, 798, 598, win)
+    cell2.has_right_wall = False
     cell2.draw("red")
     
     cell1.draw_move(cell2)
+    '''
+    Maze(0, 0, 5, 7, 100, 100, win)
     
-    Maze(100, 100, 10, 10, 10, 10, win)
-
     win.wait_for_close()
 
 #run_maze()
