@@ -169,33 +169,22 @@ class Maze():
         while stop == False:
             cells_to_visit = []
             _i, _j = i, j - 1
-            if _i >= 0 and _j >= 0:
-                try:
-                    if self._cells[_i][_j].visited == False:
+            if _j >= 0:
+                if self._cells[_i][_j].visited == False:
                         cells_to_visit.append([_i, _j, "up"])
-                except Exception as e:
-                    print(e)
             _i, _j = i + 1, j
-            if _i >= 0 and _j >= 0:
-                try:
-                    if self._cells[_i][_j].visited == False:
-                        cells_to_visit.append([_i, _j, "right"])
-                except Exception as e:
-                    print(e)
+            if _i <= self.num_cols - 1:
+                if self._cells[_i][_j].visited == False:
+                    cells_to_visit.append([_i, _j, "right"])
             _i, _j = i, j + 1
-            if _i >= 0 and _j >= 0:
-                try:
-                    if self._cells[_i][_j].visited == False:
-                        cells_to_visit.append([_i, _j, "down"])
-                except Exception as e:
-                    print(e)
+            if _j <= self.num_rows - 1:
+                if self._cells[_i][_j].visited == False:
+                    cells_to_visit.append([_i, _j, "down"])
             _i, _j = i - 1, j
-            if _i >= 0 and _j >= 0:
-                try:
-                    if self._cells[_i][_j].visited == False:
-                        cells_to_visit.append([_i, _j, "left"])
-                except Exception as e:
-                    print(e)
+            if _i >= 0:
+                if self._cells[_i][_j].visited == False:
+                    cells_to_visit.append([_i, _j, "left"])
+
             if len(cells_to_visit) == 0:
                 self._draw_cell(i, j)
                 stop = True
@@ -205,19 +194,15 @@ class Maze():
                 if direction == "up":
                     self._cells[i][j].has_top_wall = False
                     self._cells[_i][_j].has_bottom_wall = False
-                    print(direction)
                 if direction == "right":
                     self._cells[i][j].has_right_wall = False
                     self._cells[_i][_j].has_left_wall = False
-                    print(direction)
                 if direction == "down":
                     self._cells[i][j].has_bottom_wall = False
                     self._cells[_i][_j].has_top_wall = False
-                    print(direction)
                 if direction == "left":
                     self._cells[i][j].has_left_wall = False
                     self._cells[_i][_j].has_right_wall = False
-                    print(direction)
                 self._break_walls_r(_i, _j)
 
 
