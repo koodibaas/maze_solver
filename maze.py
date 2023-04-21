@@ -112,12 +112,10 @@ class Maze():
         self._win = win
         self._create_cells()
         self._break_entrance_and_exit()
-        '''
+
         if seed:
-            self.seed = random.seed(seed)
-        else:
-            self.seed = random.seed(0)
-        '''
+            random.seed(seed)
+
         self._break_walls_r(0, 0)
         self._reset_cells_visited()
         self.solve()
@@ -231,7 +229,6 @@ class Maze():
             if cell_next.visited == False:
                 if cell_next.has_bottom_wall == False:
                     if cell_current.has_top_wall == False:
-                        print("up")
                         cell_current.draw_move(cell_next)
                         if self._solve_r(_i, _j) == True:
                             return True
@@ -244,7 +241,6 @@ class Maze():
             if cell_next.visited == False:
                 if cell_next.has_left_wall == False:
                     if cell_current.has_right_wall == False:
-                        print("right")
                         cell_current.draw_move(cell_next)
                         if self._solve_r(_i, _j) == True:
                             return True
@@ -257,7 +253,6 @@ class Maze():
             if cell_next.visited == False:
                 if cell_next.has_top_wall == False:
                     if cell_current.has_bottom_wall == False:
-                        print("down")
                         cell_current.draw_move(cell_next)
                         if self._solve_r(_i, _j) == True:
                             return True
@@ -270,44 +265,21 @@ class Maze():
             if cell_next.visited == False:
                 if cell_next.has_right_wall == False:
                     if cell_current.has_left_wall == False:
-                        print("left")
                         cell_current.draw_move(cell_next)
                         if self._solve_r(_i, _j) == True:
                             return True
                         else: 
                             cell_current.draw_move(cell_next, undo=True)
-        print("end")
+
         return False
 
 
-        #[[i, j-1], [i+1, j], [i, j+1], [i-1, j]
-
-
-#def run_maze():
 if __name__ == "__main__":
     win = Window(800, 600)
-    '''
-    point1 = Point(2, 2)
-    point2 = Point(100, 100)
-    
-    line = Line(point1.x, point1.y, point2.x, point2.y)
-    win.draw_line(line, "red")
-    
-    cell1 = Cell(point1.x, point1.y, point2.x, point2.y, win)
-    cell1.draw("green")
-    
-    cell2 = Cell(200, 100, 798, 598, win)
-    cell2.has_right_wall = False
-    cell2.draw("red")
-    
-    cell1.draw_move(cell2)
-    '''
-    Maze(4, 3, 6, 8, 99, 99, win)
-    #Maze.solve()
-    
+    Maze(4, 3, 6, 8, 99, 99, win)   
     win.wait_for_close()
 
-#run_maze()
+
     
 
 
